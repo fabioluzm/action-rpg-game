@@ -1,8 +1,9 @@
 extends KinematicBody2D
 
-export var _PLAYER_MAX_SPEED: = 80.0
-export var _PLAYER_ACCELERATION: = 500.0
-export var _PLAYER_FRICTION: = 500.0
+export var _PLAYER_MAX_SPEED: = 80
+export var _PLAYER_ACCELERATION: = 500
+export var _PLAYER_FRICTION: = 500
+export var _PLAYER_ROLL_SPEED: = 100
 
 # Enumerate the diferent game states
 enum {
@@ -13,6 +14,7 @@ enum {
 var state: = MOVE
 
 var _velocity: = Vector2.ZERO
+var _roll_direction: = Vector2.LEFT
 
 # Access to the player animation
 onready var _animationPlayer: AnimationPlayer = $AnimationPlayer
@@ -26,7 +28,7 @@ func _ready() -> void:
 
 # Runs every physics steps (_physics_process())
 # Runs every steps but no access to engine physics
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	
 	match state:
 		MOVE:
@@ -42,7 +44,6 @@ func _process(_delta: float) -> void:
 			attack_state()
 
 
-
 func move_state() -> void:
 	# Player movement direction
 	# This is the direction that player is moving to
@@ -51,14 +52,26 @@ func move_state() -> void:
 	# Player motion
 	# This is the player movement speed and directional animation
 	_velocity = get_motion_speed(_velocity, _movement, _PLAYER_MAX_SPEED, _PLAYER_ACCELERATION, _PLAYER_FRICTION)
-	_velocity = move_and_slide(_velocity)
+	
+	# Start the movement
+	move()
 	
 	# Stops the current movement and switch to the attack state
 	if Input.is_action_just_pressed("ui_attack"):
 		state = ATTACK
+	elif Input.is_action_just_pressed("ui_roll"):
+		state = ROLL
+	else: 
+		state = MOVE
+
 
 func roll_state() -> void:
-	pass
+	# Set Roll velocity
+	_velocity = _roll_direction * _PLAYER_ROLL_SPEED
+	# Get the Roll animation
+	get_animation(Vector2.ZERO,"Roll")
+	# Start the movement
+	move()
 
 func attack_state() -> void:
 	# Reset the _velocity to zero
@@ -66,10 +79,15 @@ func attack_state() -> void:
 	# Get the attack animation
 	get_animation(Vector2.ZERO,"Attack")
 
-
-# Switch back to the MOVE state when the attack animation is finished
+# Switch back to the MOVE state when the attack animation finishes
 func attack_animation_finished() -> void:
 	state = MOVE
+
+# Switch back to the MOVE state when the roll animation finishes
+func roll_animation_finished() -> void:
+	_velocity = Vector2.ZERO
+	state = MOVE
+
 
 # Player directional movement
 func get_direction() -> Vector2:
@@ -83,9 +101,9 @@ func get_direction() -> Vector2:
 func get_motion_speed(
 		_linear_velocity: Vector2,
 		_movement: Vector2,
-		_speed: float,
-		_acceleration: float,
-		_friction: float
+		_speed: int,
+		_acceleration: int,
+		_friction: int
 	) -> Vector2:
 	var _motion: = _linear_velocity
 	
@@ -99,17 +117,23 @@ func get_motion_speed(
 	
 	return Vector2(_motion)
 
+
+# Start Moving function
+func move() -> Vector2:
+	_velocity = move_and_slide(_velocity)
+	return Vector2(_velocity)
+
 # Player moving animations based on direction
 func get_animation(
 		_direction:Vector2,
 		_animation:String
 	) -> void:
-	
-	
 	if _direction != Vector2.ZERO:
+		_roll_direction = _direction
 		_animationTree.set("parameters/Idle/blend_position", _direction)
 		_animationTree.set("parameters/Run/blend_position", _direction)
 		_animationTree.set("parameters/Attack/blend_position", _direction)
+		_animationTree.set("parameters/Roll/blend_position", _direction)
 		
 		_animationState.travel(_animation)
 	else:
