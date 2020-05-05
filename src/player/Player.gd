@@ -4,13 +4,14 @@ export var _PLAYER_MAX_SPEED: = 80.0
 export var _PLAYER_ACCELERATION: = 500.0
 export var _PLAYER_FRICTION: = 500.0
 
+# Enumerate the diferent game states
 enum {
 	MOVE,
 	ROLL,
 	ATTACK
 }
-
 var state: = MOVE
+
 var _velocity: = Vector2.ZERO
 
 # Access to the player animation
@@ -23,8 +24,9 @@ func _ready() -> void:
 	# Start animation tree on game start
 	_animationTree.active = true
 
-# Runs every physics steps
-func _physics_process(_delta: float) -> void:
+# Runs every physics steps (_physics_process())
+# Runs every steps but no access to engine physics
+func _process(_delta: float) -> void:
 	
 	match state:
 		MOVE:
@@ -41,7 +43,7 @@ func _physics_process(_delta: float) -> void:
 
 
 
-func move_state() -> Vector2:
+func move_state() -> void:
 	# Player movement direction
 	# this is the direction that player is moving to
 	var _movement: = get_direction()
@@ -54,11 +56,9 @@ func move_state() -> Vector2:
 	# Stops the current movement and switch to the attack state
 	if Input.is_action_just_pressed("ui_attack"):
 		state = ATTACK
-	
-	return Vector2(_velocity)
 
-func roll_state() -> Vector2:
-	return Vector2()
+func roll_state() -> void:
+	pass
 
 func attack_state() -> void:
 	var _direction: = get_direction()
@@ -67,10 +67,11 @@ func attack_state() -> void:
 	get_animation(_direction,"Attack")
 
 
+# Switch back to the MOVE state when the attack animation is finished
 func attack_animation_finished() -> void:
 	state = MOVE
 
-# Player movement
+# Player directional movement
 func get_direction() -> Vector2:
 	var _direction: = Vector2.ZERO
 	_direction.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -79,7 +80,7 @@ func get_direction() -> Vector2:
 	_direction = _direction.normalized()
 	return Vector2(_direction)
 
-# Player motion speed base on velocity
+# Player motion speed based on velocity
 func get_motion_speed(
 		_linear_velocity: Vector2,
 		_movement: Vector2,
@@ -99,7 +100,7 @@ func get_motion_speed(
 	
 	return Vector2(_motion)
 
-# Player animations based on direction
+# Player moving animations based on direction
 func get_animation(
 		_direction:Vector2,
 		_animation:String
