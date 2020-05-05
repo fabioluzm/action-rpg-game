@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/world/Bush.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/world/LevelDesign.tscn" type="PackedScene" id=3]
+
+[node name="Game" type="Node2D"]
+
+[node name="LevelDesign" parent="." instance=ExtResource( 3 )]
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Bushes" type="YSort" parent="YSort"]
+
+[node name="Bush" parent="YSort/Bushes" instance=ExtResource( 1 )]
+position = Vector2( 160, 72 )
+
+[node name="Bush2" parent="YSort/Bushes" instance=ExtResource( 1 )]
+position = Vector2( 80, 120 )
+
+[node name="Bush5" parent="YSort/Bushes" instance=ExtResource( 1 )]
+position = Vector2( 208, 112 )
+
+[node name="Bush7" parent="YSort/Bushes" instance=ExtResource( 1 )]
+position = Vector2( 104, 88 )
+
+[node name="Bush9" parent="YSort/Bushes" instance=ExtResource( 1 )]
+position = Vector2( 184, 144 )
+
+[node name="Player" parent="YSort" instance=ExtResource( 2 )]
+position = Vector2( 176, 40 )

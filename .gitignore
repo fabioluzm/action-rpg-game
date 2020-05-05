@@ -1,0 +1,14 @@
+res://addons/file-editor/
+res://addons/godot-plugin-refresher/
+res://addons/gdunzip/
+addons/
+.import/
+*.import
+fonts/
+icons.pngs/
+user/
+screenshots/
+
+
+
+
