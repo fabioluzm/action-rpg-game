@@ -30,26 +30,26 @@ func _process(_delta: float) -> void:
 	
 	match state:
 		MOVE:
-			# state when the player is moving
+			# State when the player is moving
 			move_state()
 		
 		ROLL:
-			# state when the player is rolling
+			# State when the player is rolling
 			roll_state()
 		
 		ATTACK:
-			# state when the player is attacking
+			# State when the player is attacking
 			attack_state()
 
 
 
 func move_state() -> void:
 	# Player movement direction
-	# this is the direction that player is moving to
+	# This is the direction that player is moving to
 	var _movement: = get_direction()
 	
 	# Player motion
-	# this is the player movement speed and directional animation
+	# This is the player movement speed and directional animation
 	_velocity = get_motion_speed(_velocity, _movement, _PLAYER_MAX_SPEED, _PLAYER_ACCELERATION, _PLAYER_FRICTION)
 	_velocity = move_and_slide(_velocity)
 	
@@ -61,10 +61,10 @@ func roll_state() -> void:
 	pass
 
 func attack_state() -> void:
-	var _direction: = get_direction()
+	# Reset the _velocity to zero
 	_velocity = Vector2.ZERO
-
-	get_animation(_direction,"Attack")
+	# Get the attack animation
+	get_animation(Vector2.ZERO,"Attack")
 
 
 # Switch back to the MOVE state when the attack animation is finished
@@ -76,7 +76,6 @@ func get_direction() -> Vector2:
 	var _direction: = Vector2.ZERO
 	_direction.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	_direction.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	
 	_direction = _direction.normalized()
 	return Vector2(_direction)
 
