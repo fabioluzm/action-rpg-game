@@ -1,0 +1,125 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/Enemies/Bat.png" type="Texture" id=1]
+[ext_resource path="res://assets/Shadows/MediumShadow.png" type="Texture" id=2]
+[ext_resource path="res://assets/Shadows/SmallShadow.png" type="Texture" id=3]
+[ext_resource path="res://src/enemies/bat/Bat.gd" type="Script" id=4]
+[ext_resource path="res://src/world/props/Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/enemies/Stats.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.0
+height = 6.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Bat"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SmallShadow:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("MediumShadow:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CollisionShape2D:shape:radius")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4.0, 2.0, 4.0, 4.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:shape:height")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6.0, 4.0, 6.0, 6.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Shadow"
+loop = true
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 7.0
+height = 6.0
+
+[node name="Bat" type="KinematicBody2D"]
+collision_layer = 16
+collision_mask = 5
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -12 )
+hframes = 5
+frame = 4
+
+[node name="SmallShadow" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="MediumShadow" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="BatAnimation" type="AnimationPlayer" parent="."]
+anims/Bat = SubResource( 2 )
+anims/Shadow = SubResource( 3 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -13 )
+shape = SubResource( 4 )
+
+[node name="Stats" parent="." instance=ExtResource( 6 )]
+_MaxHealth = 2
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+
+[editable path="Hurtbox"]

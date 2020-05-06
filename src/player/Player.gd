@@ -20,11 +20,14 @@ var _roll_direction: = Vector2.LEFT
 onready var _animationPlayer: AnimationPlayer = $AnimationPlayer
 onready var _animationTree: AnimationTree = $AnimationTree
 onready var _animationState = _animationTree.get("parameters/playback")
-
+onready var _swordHitBox: = $HitboxPivot/SwordHitbox
 
 func _ready() -> void:
 	# Start animation tree on game start
 	_animationTree.active = true
+	# Get the sword knockback direction
+	_swordHitBox._knockback_direction = _roll_direction
+
 
 # Runs every physics steps (_physics_process())
 # Runs every steps but no access to engine physics
@@ -129,7 +132,9 @@ func get_animation(
 		_animation:String
 	) -> void:
 	if _direction != Vector2.ZERO:
-		_roll_direction = _direction
+		# get the direction for the animations
+		get_anim_direction(_direction)
+		
 		_animationTree.set("parameters/Idle/blend_position", _direction)
 		_animationTree.set("parameters/Run/blend_position", _direction)
 		_animationTree.set("parameters/Attack/blend_position", _direction)
@@ -138,3 +143,8 @@ func get_animation(
 		_animationState.travel(_animation)
 	else:
 		_animationState.travel(_animation)
+
+# Directions for the animations
+func get_anim_direction(_direction: Vector2) -> void:
+	_roll_direction = _direction
+	_swordHitBox._knockback_direction = _direction

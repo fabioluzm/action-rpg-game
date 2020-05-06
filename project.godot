@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "HitBox",
+"language": "GDScript",
+"path": "res://src/world/props/Hitbox.gd"
+} ]
 _global_script_class_icons={
-
+"HitBox": ""
 }
 
 [application]
@@ -106,3 +111,4 @@ ui_roll={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="P_Hurtbox"
 2d_physics/layer_4="E_Hurtbox"
+2d_physics/layer_5="Enemy"
