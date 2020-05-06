@@ -14,7 +14,7 @@ enum {
 var state: = MOVE
 
 var _velocity: = Vector2.ZERO
-var _roll_direction: = Vector2.LEFT
+var _roll_direction: = Vector2.DOWN
 
 # Access to the player animation
 onready var _animationPlayer: AnimationPlayer = $AnimationPlayer

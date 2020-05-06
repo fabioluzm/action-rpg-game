@@ -9,13 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AnimatedSprite",
+"class": "DeathEffect",
+"language": "GDScript",
+"path": "res://src/world/props/death effect/DeathEffect.gd"
+}, {
 "base": "Area2D",
 "class": "HitBox",
 "language": "GDScript",
-"path": "res://src/world/props/Hitbox.gd"
+"path": "res://src/world/props/hit and hurt boxes/Hitbox.gd"
+}, {
+"base": "AnimatedSprite",
+"class": "_node_name",
+"language": "GDScript",
+"path": "res://src/World/props/death effect/DeathEffect.gd"
 } ]
 _global_script_class_icons={
-"HitBox": ""
+"DeathEffect": "",
+"HitBox": "",
+"_node_name": ""
 }
 
 [application]

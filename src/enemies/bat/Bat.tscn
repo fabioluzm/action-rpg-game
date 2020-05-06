@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/Shadows/MediumShadow.png" type="Texture" id=2]
 [ext_resource path="res://assets/Shadows/SmallShadow.png" type="Texture" id=3]
 [ext_resource path="res://src/enemies/bat/Bat.gd" type="Script" id=4]
-[ext_resource path="res://src/world/props/Hurtbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/World/props/hit and hurt boxes/Hurtbox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/enemies/Stats.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]

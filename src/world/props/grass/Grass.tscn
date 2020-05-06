@@ -1,8 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/World/Grass.png" type="Texture" id=1]
-[ext_resource path="res://src/world/props/grass/Grass.gd" type="Script" id=2]
-[ext_resource path="res://src/world/props/Hurtbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/World/props/grass/Grass.gd" type="Script" id=2]
+[ext_resource path="res://src/World/props/hit and hurt boxes/Hurtbox.tscn" type="PackedScene" id=3]
+
+
+
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 7 )
