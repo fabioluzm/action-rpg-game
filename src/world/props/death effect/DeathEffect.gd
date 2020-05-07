@@ -1,5 +1,4 @@
 extends AnimatedSprite
-class_name DeathEffect
 
 # Play the Death Effect animation
 func _ready() -> void:
@@ -7,13 +6,14 @@ func _ready() -> void:
 	
 	# connect the object/node that has the signal, the signal to connect to
 	# the object/node that has the function, the function that we're connecting to
+# warning-ignore:return_value_discarded
 	self.connect("animation_finished", self, "_on_animation_finished")
 	
 	# Set the starting animation frame
 	frame = 0
 	
 	# Play the animation
-	play("DeathAnimation")
+	play("Animation")
 
 # Destroy the object/node when the animation is finished
 func _on_animation_finished() -> void:

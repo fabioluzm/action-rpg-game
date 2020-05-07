@@ -2,21 +2,59 @@ extends KinematicBody2D
 
 # onready vars
 onready var _BatAnimation: = $BatAnimation
+onready var _Sprite: = $Sprite
 onready var _Stats: = $Stats
+onready var _PlayerDetection: = $PlayerDetection
+
 
 # Contants
 const _BatDeathEffect: = preload("BatDeathEffect.tscn")
 
-# vars
+# Exports
+export var _ACCELERATION: = 300
+export var _MAX_SPEED: = 50
+export var _FRICTION: = 200
+
+# Enums
+enum {
+	IDLE,
+	WANDER,
+	CHASE
+}
+
+# variables
+var _velocity: = Vector2.ZERO
 var _knockBack: = Vector2.ZERO
+var _state = CHASE
 
 func _ready() -> void:
 	_BatAnimation.play("Bat")
 
 func _physics_process(_delta: float) -> void:
-	_knockBack = _knockBack.move_toward(Vector2.ZERO, 200 * _delta)
+	_knockBack = _knockBack.move_toward(Vector2.ZERO, _FRICTION * _delta)
 	_knockBack = move_and_slide(_knockBack)
+	
+	match _state:
+		IDLE:
+			_velocity = _velocity.move_toward(Vector2.ZERO, _FRICTION * _delta)
+			seek_player()
+		
+		WANDER:
+			pass
+		
+		CHASE:
+			var _player = _PlayerDetection._player
+			if _player != null:
+				var _player_direction = (_player.global_position -global_position).normalized()
+				_velocity = _velocity.move_toward(_player_direction * _MAX_SPEED, _ACCELERATION * _delta)
+			
+#			_Sprite.flip_h = _velocity.x < 0
+	_velocity = move_and_slide(_velocity)
 
+
+func seek_player() -> void:
+	if _PlayerDetection.can_see_player():
+		_state = CHASE
 
 func _on_Hurtbox_area_entered(_area: Area2D) -> void:
 #	set_health(_area)
