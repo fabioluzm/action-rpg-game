@@ -1,12 +1,44 @@
 extends Area2D
 
-export var _show_hit: = true
+### Onready vars ###
+onready var timer: = $Timer
 
-const _HitEffect = preload("../../hit effect/HitEffect.tscn")
+### Constants ###
+const HITEFFECT = preload("res://src/world/props/hit effect/HitEffect.tscn")
 
-func _on_Hurtbox_area_entered(area: Area2D) -> void:
-	if _show_hit == true:
-		var _effect = _HitEffect.instance()
-		var _main = get_tree().current_scene
-		_main.add_child(_effect)
-		_effect.global_position = global_position
+### Signals ###
+signal invicibility_started
+signal invicibility_ended
+
+### Variables ###
+var invicible = false setget set_invicible
+
+
+### Custom Functions ###
+func set_invicible(value) -> void:
+	invicible = value
+	if invicible == true:
+		emit_signal("invicibility_started")
+	else:
+		emit_signal("invicibility_ended")
+
+func start_invicibility(duration) -> void:
+	self.invicible = true
+	timer.start(duration)
+
+func create_hit_effect() -> void:
+	var effect = HITEFFECT.instance()
+	var _game = get_tree().current_scene
+	_game.add_child(effect)
+	effect.global_position = global_position
+
+
+### Signal Functions ###
+func _on_Timer_timeout() -> void:
+	self.invicible = false
+
+func _on_Hurtbox_invicibility_started() -> void:
+	set_deferred("monitorable", false)
+
+func _on_Hurtbox_invicibility_ended() -> void:
+	monitorable = true

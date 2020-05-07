@@ -1,3 +1,3 @@
 extends HitBox
 
-var _knockback_direction: = Vector2.ZERO
+var knockback_direction: = Vector2.ZERO

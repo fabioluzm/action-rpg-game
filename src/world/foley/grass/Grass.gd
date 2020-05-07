@@ -1,16 +1,14 @@
 extends StaticBody2D
 
-const _GrassEffect: = preload("GrassDeathEffect.tscn")
+const _GRASSEFFECT: = preload("GrassDeathEffect.tscn")
 
 func create_grass_effect() -> void:
 	# Load the grass effect scene and create the instance of the scene
-	var _grassEffect = _GrassEffect.instance()
+	var grassEffect = _GRASSEFFECT.instance()
 	
-	# Get the main scene from the tree scene and add a child
-	# grass effect instace at the same position of this grass node
-	var _Game = get_tree().current_scene
-	_Game.add_child(_grassEffect)
-	_grassEffect.global_position = global_position
+	# Attach the instace at the same position of the parent node
+	get_parent().add_child(grassEffect)
+	grassEffect.global_position = global_position
 
 
 # Create grass effect when grass hurtbox is entered and destroy the node

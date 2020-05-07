@@ -1,17 +1,15 @@
 extends Area2D
 
-# variables
-var _player = null
 
-func _physics_process(delta: float) -> void:
-	pass
+var player = null
 
 func can_see_player() -> bool:
-	return _player != null
+	return player != null
 
 func _on_PlayerDetection_body_entered(body: Node) -> void:
-	_player = body
+	player = body
 
 
 func _on_PlayerDetection_body_exited(body: Node) -> void:
-	_player = null
+	player = body
+	player = null

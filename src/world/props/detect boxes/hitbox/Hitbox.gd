@@ -1,4 +1,4 @@
 extends Area2D
 class_name HitBox
 
-export var _DAMAGE: = 1
+export var damage: = 1
