@@ -160,5 +160,5 @@ func get_anim_direction(_direction: Vector2) -> void:
 ### Signal Functions ###
 func _on_Hurtbox_area_entered(_area: Area2D) -> void:
 	set_health()
-	hurtbox.start_invicibility(stats.InvicibleTime)
+	hurtbox.start_invicibility(stats.invicible_time)
 	hurtbox.create_hit_effect()
