@@ -47,8 +47,10 @@ func _physics_process(_delta: float) -> void:
 			if _player != null:
 				var _player_direction = (_player.global_position -global_position).normalized()
 				_velocity = _velocity.move_toward(_player_direction * _MAX_SPEED, _ACCELERATION * _delta)
+			else:
+				_state = IDLE
+			_Sprite.flip_h = _velocity.x < 0
 			
-#			_Sprite.flip_h = _velocity.x < 0
 	_velocity = move_and_slide(_velocity)
 
 

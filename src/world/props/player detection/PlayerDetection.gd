@@ -1,7 +1,7 @@
 extends Area2D
 
 # variables
-var _player: = null
+var _player = null
 
 func _physics_process(delta: float) -> void:
 	pass

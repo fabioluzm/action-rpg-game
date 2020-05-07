@@ -86,7 +86,7 @@ radius = 7.0
 height = 6.0
 
 [sub_resource type="CircleShape2D" id=5]
-radius = 64.0
+radius = 64.0078
 
 [node name="Bat" type="KinematicBody2D"]
 collision_layer = 16
@@ -126,6 +126,7 @@ _MaxHealth = 2
 [node name="PlayerDetection" parent="." instance=ExtResource( 7 )]
 
 [node name="CollisionShape2D" parent="PlayerDetection" index="0"]
+self_modulate = Color( 1, 1, 1, 0.298039 )
 shape = SubResource( 5 )
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
